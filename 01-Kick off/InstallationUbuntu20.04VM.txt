@@ -1,0 +1,72 @@
+# Do this in VirtualBox:
+# Create VM with 8 GB of RAM and 100 GB of your HD
+
+
+# Share clipboard
+# Do this in VirtualBox:
+#  General > Advanced > "Shared Clipboard -> Bidirectional" selected
+# Install the Guest Additions CD in the VM C:\Program Files\Oracle\VirtualBox\VBoxGuestAdditions.iso
+
+# If error with Guest Additions CD 
+# sudo apt install -y build-essential linux-kernel-headers
+
+# Share folders from host
+# Go to VM manager > shared folders and add the folfer to share
+sudo adduser ${USER} vboxsf
+
+# Enable sudo without password in Ubuntu
+# Open the /etc/sudoers file (as root, of course!) by running:
+sudo visudo
+# You should never edit /etc/sudoers with a regular text editor, such as Vim or nano, because they do not validate the syntax like the visudo editor.
+
+# At the end of the /etc/sudoers file add this line:
+username     ALL=(ALL) NOPASSWD:ALL
+
+
+
+# Install updates via update console or 
+# sudo apt upgrade
+
+# Install essential applications 
+sudo apt -y update \
+&& sudo apt -y install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    default-jdk \
+    git \
+    gnupg-agent \
+    software-properties-common \
+    vim
+
+# Install docker
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+   
+sudo apt-get update && sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
+sudo systemctl enable --now docker
+sudo systemctl start docker
+sudo usermod -aG docker $USER
+
+# Restart
+
+# Install Anaconda for python
+# Download anaconda from https://www.anaconda.com/products/individual#linux
+cd Downloads/
+wget https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh
+sudo chmod +x Anaconda3-2020.11-Linux-x86_64.sh
+# DO NOT RUN AS sudo as it will give problems with installing packages due to permissions in the folder
+./Anaconda3-2020.11-Linux-x86_64.sh
+
+# Restart shell console
+
+# Create a coda environment from a file:
+conda env create -f environment.yml
+conda activate spatial
+# Test with 
+jupyter notebook

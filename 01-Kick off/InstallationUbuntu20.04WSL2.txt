@@ -1,0 +1,68 @@
+:: WSL
+:: From https://docs.microsoft.com/en-us/windows/wsl/install-win10::manual-installation-steps
+
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+:: Restart-Computer
+
+:: Download the Linux kernel update package from https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi
+
+:: Set WSL 2 as the default version
+wsl.exe --set-default-version 2
+
+:: Install Ubuntu from the Microsoft Store from https://www.microsoft.com/store/productId/9NBLGGH4MSV6
+:: OPTIONAL Install Windows Terminal https://www.microsoft.com/store/productId/9N0DX20HK701
+
+# From now on, commands should be run on Linux 
+# Install Miniconda for python
+
+mkdir Downloads
+cd Downloads
+wget https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh
+sudo chmod +x Anaconda3-2020.11-Linux-x86_64.sh
+# DO NOT RUN AS sudo as it will give problems with installing packages due to permissions in the folder
+./Anaconda3-2020.11-Linux-x86_64.sh
+
+# Create a coda environment from a file:
+conda env create -f environment.yml
+conda activate spatial
+# Test with 
+jupyter notebook
+
+:: Accessing Linux Files from Windows
+:: Files are available in \\wsl$\Ubuntu
+
+:: Accessing Windows Files from Linux
+:: Windows drives are mounted in the Linux /mnt/
+
+SET distro_name=Ubuntu
+
+:: Additional WSL2 commands, run on the windows Command Prompt
+:: Export
+mkdir D:\wslbackup\
+wsl --export Ubuntu D:\wslbackup\%distro_name%.tar
+
+:: Import
+:: mkdir C:\wsl\%distro_name%
+:: wsl --import %distro_name% C:\wsl\%distro_name% D:\wslbackup\ubuntu.tar
+
+:: Run Linux as a Specific User
+:: wsl --user <username>
+
+:: List all distros
+wsl --list
+
+:: List distros that are running
+wsl --list --running
+
+:: Set as distro as default
+:: wsl --setdefault %distro_name%
+
+:: Restart
+:: wsl --shutdown %distro_name% 
+
+:: Delete 
+:: wsl --unregister %distro_name% 
+
+
+
