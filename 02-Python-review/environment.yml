@@ -1,0 +1,4 @@
+name: mypanda
+channels:
+  - defaults
+prefix: /home/ningwei/anaconda3/envs/mypanda
